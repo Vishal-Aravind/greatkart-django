@@ -38,6 +38,9 @@ def add_cart(request, product_id):
     is_cart_item_exists = CartItem.objects.filter(product=product, cart=cart).exists()
     if is_cart_item_exists:
         cart_item = CartItem.objects.filter(product=product, cart=cart)
+        # existing_variations -> database
+        # current variation -> product_variation
+        # item_id -> database
         ex_var_list = []
         id = []
         for item in cart_item:
@@ -56,19 +59,18 @@ def add_cart(request, product_id):
         else:
             item = CartItem.objects.create(
                 product=product,
-                cart=cart,
                 quantity=1,
+                cart=cart,
             )
             if len(product_variation) > 0:
                 item.variation.clear()
                 item.variation.add(*product_variation)
-        #cart_item.quantity += 1
             item.save()
     else :
         cart_item = CartItem.objects.create(
             product=product,
-            cart=cart,
             quantity=1,
+            cart=cart,
         )
         if len(product_variation) > 0:
             cart_item.variation.clear()
@@ -76,21 +78,24 @@ def add_cart(request, product_id):
         cart_item.save()
     return redirect('cart')
 
-def remove_cart(request, product_id):     # for minus button
+def remove_cart(request, product_id, cart_item_id):     # for minus button
     cart = Cart.objects.get(cart_id=_cart_id(request))
     product = get_object_or_404(Product, id=product_id)
-    cart_item = CartItem.objects.get(product=product, cart=cart)
-    if cart_item.quantity > 1:
-        cart_item.quantity -= 1
-        cart_item.save()
-    else:
-        cart_item.delete()
+    try:
+        cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    except:
+        pass
     return redirect('cart')
 
-def remove_cart_item(request, product_id):      # for the remove button
+def remove_cart_item(request, product_id, cart_item_id):      # for the remove button
     cart = Cart.objects.get(cart_id=_cart_id(request))
     product = get_object_or_404(Product, id=product_id)
-    cart_item = CartItem.objects.get(product=product, cart=cart)
+    cart_item = CartItem.objects.get(product=product, cart=cart, id = cart_item_id)
     cart_item.delete()
     return redirect('cart')
 
