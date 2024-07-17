@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+    <div id = "message" class="container">
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">       <!-- the message.tags is the whatever the tag we specify in the views, here we have specifies messages.success -->
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</button>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% endif %}
+        {{ message }}        <!-- the message is called from views.py-->
+    </div>
+    </div>
+    {% endfor %}
+{% endif %}
