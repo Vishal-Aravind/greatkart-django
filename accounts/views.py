@@ -111,9 +111,8 @@ def login(request):
                 if 'next' in params:
                     nextPage = params['next']      # returns /cart/checkout in this case
                     return redirect(nextPage)
-                return redirect('dashboard')
             except:
-                pass
+                return redirect('dashboard')
         else:
             messages.error(request, 'Invalid login credentials')
             return redirect('login')
