@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'oodagam1@gmail.com'
 EMAIL_HOST_PASSWORD = 'pdtb bwbn faaz raka'
 EMAIL_USE_TLS = True
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'

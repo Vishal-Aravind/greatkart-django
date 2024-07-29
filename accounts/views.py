@@ -103,7 +103,7 @@ def login(request):
                 pass
             auth.login(request, user)
             #messages.success(request, 'Login successful')
-            url = request.META.get('HTTP_REFERER')   # this http_referer capures from where url you came from previously
+            url = request.META.get('HTTP_REFERER')   # this http_referer captures from where url you came from previously
             try:
                 query = requests.utils.urlparse(url).query
                 # next=/cart/checkout/
